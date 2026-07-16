@@ -1,9 +1,6 @@
 package com.projetoIntegrador.Studia.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,13 +8,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class TarefaEstudo {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn( name = "disciplina_id", nullable = false)
+    private Disciplina disciplina;
 
-    private Long disciplinaId;
-
+    @Column(nullable = false, unique = true)
     private String titulo;
 
     @Column(columnDefinition = "TEXT")
