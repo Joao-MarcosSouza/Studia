@@ -11,12 +11,6 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 public class Estudante {
-    public Estudante(EstudanteRequestDto dados){
-        this.nome = dados.nome();
-        this.email = dados.email();
-        this.senha = dados.senha();
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
