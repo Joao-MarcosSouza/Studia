@@ -19,17 +19,34 @@ public class EstudanteService {
     }
 
     //======== Create =======
-    public Estudante criar(EstudanteRequestDto dados){
+    public Estudante create(EstudanteRequestDto dados){
+
+        if(dados.nome() == null || dados.nome().isEmpty()){
+            throw new IllegalArgumentException("O nome deve ser preenchido.");
+        }
+
+        if(dados.email() == null || dados.email().isEmpty()){
+            throw new IllegalArgumentException("O email deve ser preenchido.");
+        }
+
+        if(dados.senha() == null || dados.senha().isEmpty()){
+            throw new IllegalArgumentException("A senha deve ser preenchida.");
+        }
+
+        if(repository.existsByUsername(dados.username())){
+            throw new IllegalArgumentException("Usuario ja existente");
+        };
+
+
+        if(repository.existsByEmail(dados.email())){
+            throw new IllegalArgumentException("Email ja cadastrado.");
+        };
 
         Estudante novoEstudante = new Estudante();
 
         novoEstudante.setNome(dados.nome());
-
         novoEstudante.setUsername(dados.username());
         novoEstudante.setEmail(dados.email());
-        if(repository.existsByEmail(dados.email()) == novoEstudante.setEmail(dados.email())){
-
-        };
         novoEstudante.setSenha(dados.senha());
 
         novoEstudante.setAtivo(true);
@@ -58,7 +75,7 @@ public class EstudanteService {
     }
 
 
-    public Estudante reativarConta(Long id){
+    public Estudante reactiveEstudante(Long id){
 
         Estudante estudante = readById(id);
         if(estudante.isAtivo()){
