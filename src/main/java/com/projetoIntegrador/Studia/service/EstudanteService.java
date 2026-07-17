@@ -24,8 +24,12 @@ public class EstudanteService {
         Estudante novoEstudante = new Estudante();
 
         novoEstudante.setNome(dados.nome());
+
         novoEstudante.setUsername(dados.username());
         novoEstudante.setEmail(dados.email());
+        if(repository.existsByEmail(dados.email()) == novoEstudante.setEmail(dados.email())){
+
+        };
         novoEstudante.setSenha(dados.senha());
 
         novoEstudante.setAtivo(true);
