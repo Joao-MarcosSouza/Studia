@@ -1,5 +1,6 @@
 package com.projetoIntegrador.Studia.model;
 
+import com.projetoIntegrador.Studia.dto.EstudanteRequestDto;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,12 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 public class Estudante {
+    public Estudante(EstudanteRequestDto dados){
+        this.nome = dados.nome();
+        this.email = dados.email();
+        this.senha = dados.senha();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
