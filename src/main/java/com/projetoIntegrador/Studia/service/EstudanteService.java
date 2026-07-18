@@ -1,9 +1,10 @@
 package com.projetoIntegrador.Studia.service;
 
 import com.projetoIntegrador.Studia.dto.EstudanteRequestDto;
-import com.projetoIntegrador.Studia.dto.EstudanteUpdateDto;
 import com.projetoIntegrador.Studia.model.Estudante;
+import com.projetoIntegrador.Studia.repository.CronogramaTarefaRepository;
 import com.projetoIntegrador.Studia.repository.EstudanteRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,14 +13,16 @@ import java.util.List;
 @Service
 public class EstudanteService {
     private final EstudanteRepository repository;
+    private final CronogramaTarefaRepository cronogramaRepository;
 
-
-    public EstudanteService(EstudanteRepository repository) {
+    public EstudanteService(EstudanteRepository repository, CronogramaTarefaRepository cronogramaRepository) {
         this.repository = repository;
+        this.cronogramaRepository = cronogramaRepository;
     }
 
+
     //======== Create =======
-    public Estudante create(EstudanteRequestDto dados){
+    public Estudante createEstudante(EstudanteRequestDto dados){
 
         if(dados.nome() == null || dados.nome().isEmpty()){
             throw new IllegalArgumentException("O nome deve ser preenchido.");
@@ -66,11 +69,16 @@ public class EstudanteService {
     }
     // ====== update =====
 
-    public Estudante update(Long id,EstudanteUpdateDto estudanteAtualizado){
+    public Estudante update(Long id,EstudanteRequestDto estudanteAtualizado){
         Estudante estudante = readById(id);
 
         estudante.setNome(estudanteAtualizado.nome());
         estudante.setDescricaoPessoal(estudanteAtualizado.descricaoPessoal());
+
+        if(estudanteAtualizado.senha() != null && !estudanteAtualizado.senha().isEmpty()) {
+            estudante.setSenha(estudanteAtualizado.senha());
+        }
+
         return repository.save(estudante);
     }
 
@@ -92,10 +100,13 @@ public class EstudanteService {
         repository.delete(estudante);
     }
 
+    @Transactional
     public void softDelete(Long id){
         Estudante estudante = readById(id);
         estudante.setAtivo(false);
         repository.save(estudante);
+
+        cronogramaRepository.deleteByEstudante(estudante);
     }
 
 }
