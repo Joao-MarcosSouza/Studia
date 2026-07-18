@@ -1,6 +1,8 @@
 package com.projetoIntegrador.Studia.service;
 
 import com.projetoIntegrador.Studia.dto.DisciplinaRequestDto;
+import com.projetoIntegrador.Studia.exception.RecursoDuplicadoException;
+import com.projetoIntegrador.Studia.exception.RecursoNaoEncotradoException;
 import com.projetoIntegrador.Studia.model.Disciplina;
 import com.projetoIntegrador.Studia.repository.DisciplinaRepository;
 import org.springframework.data.domain.Page;
@@ -21,7 +23,7 @@ public class DisciplinaService {
 
     public Disciplina createDisciplina(DisciplinaRequestDto dados){
         if(repository.existsByTitulo(dados.titulo())){
-            throw new IllegalArgumentException("Esse titulo ja existe.");
+            throw new RecursoDuplicadoException("Esse titulo ja existe.");
         }
 
         Disciplina novaDisciplina = new Disciplina();
@@ -40,7 +42,7 @@ public class DisciplinaService {
     }
 
     public Disciplina readById(Long id){
-        return repository.findById(id).orElseThrow(() -> new  IllegalArgumentException("Disciplina não encotrado."));
+        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncotradoException("Disciplina não encotrado."));
     }
 
     //====== UPDATE ======

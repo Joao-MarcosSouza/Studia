@@ -1,6 +1,8 @@
 package com.projetoIntegrador.Studia.service;
 
 import com.projetoIntegrador.Studia.dto.CronogramaRequestDto;
+import com.projetoIntegrador.Studia.exception.EstadoInvalidoException;
+import com.projetoIntegrador.Studia.exception.RecursoNaoEncotradoException;
 import com.projetoIntegrador.Studia.model.Cronograma;
 import com.projetoIntegrador.Studia.model.Estudante;
 import com.projetoIntegrador.Studia.model.TarefaEstudo;
@@ -27,14 +29,14 @@ public class CronogramaService {
     public Cronograma createCronograma(CronogramaRequestDto dados) {
 
         Estudante estudante = estudanteRepository.findById(dados.estudanteId())
-                .orElseThrow(() -> new IllegalArgumentException("Estudante não encontrado."));
+                .orElseThrow(() -> new RecursoNaoEncotradoException("Estudante não encontrado."));
 
         if(!estudante.isAtivo()){
-            throw new IllegalArgumentException("Não é possivel criar um cronograma pra um estudante inativo");
+            throw new EstadoInvalidoException("Não é possivel criar um cronograma pra um estudante inativo");
         }
 
         TarefaEstudo tarefa = tarefaRepository.findById(dados.tarefaEstudoId())
-                .orElseThrow(() -> new IllegalArgumentException("Tarefa não encontrada"));
+                .orElseThrow(() -> new RecursoNaoEncotradoException("Tarefa não encontrada"));
 
         if(repository.existsByEstudanteAndTarefaEstudo(estudante,tarefa)){
             throw new IllegalArgumentException("Esta tarefa ja esta no cronograma do estudante.");

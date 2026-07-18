@@ -1,6 +1,10 @@
 package com.projetoIntegrador.Studia.service;
 
 import com.projetoIntegrador.Studia.dto.EstudanteRequestDto;
+import com.projetoIntegrador.Studia.exception.ErrodeDeValidacaoException;
+import com.projetoIntegrador.Studia.exception.EstadoInvalidoException;
+import com.projetoIntegrador.Studia.exception.RecursoDuplicadoException;
+import com.projetoIntegrador.Studia.exception.RecursoNaoEncotradoException;
 import com.projetoIntegrador.Studia.model.Estudante;
 import com.projetoIntegrador.Studia.repository.CronogramaTarefaRepository;
 import com.projetoIntegrador.Studia.repository.EstudanteRepository;
@@ -25,24 +29,24 @@ public class EstudanteService {
     public Estudante createEstudante(EstudanteRequestDto dados){
 
         if(dados.nome() == null || dados.nome().isEmpty()){
-            throw new IllegalArgumentException("O nome deve ser preenchido.");
+            throw new ErrodeDeValidacaoException("O nome deve ser preenchido.");
         }
 
         if(dados.email() == null || dados.email().isEmpty()){
-            throw new IllegalArgumentException("O email deve ser preenchido.");
+            throw new ErrodeDeValidacaoException("O email deve ser preenchido.");
         }
 
         if(dados.senha() == null || dados.senha().isEmpty()){
-            throw new IllegalArgumentException("A senha deve ser preenchida.");
+            throw new ErrodeDeValidacaoException("A senha deve ser preenchida.");
         }
 
         if(repository.existsByUsername(dados.username())){
-            throw new IllegalArgumentException("Usuario ja existente");
+            throw new RecursoDuplicadoException("Usuario ja existente");
         };
 
 
         if(repository.existsByEmail(dados.email())){
-            throw new IllegalArgumentException("Email ja cadastrado.");
+            throw new RecursoDuplicadoException("Email ja cadastrado.");
         };
 
         Estudante novoEstudante = new Estudante();
@@ -65,7 +69,7 @@ public class EstudanteService {
     }
 
     public Estudante readById(Long id){
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Estudante não encotrado"));
+        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncotradoException("Estudante não encotrado"));
     }
     // ====== update =====
 
@@ -87,7 +91,7 @@ public class EstudanteService {
 
         Estudante estudante = readById(id);
         if(estudante.isAtivo()){
-            throw new IllegalArgumentException("Esta conta ja esta ativa");
+            throw new EstadoInvalidoException("Esta conta ja esta ativa");
         }
         estudante.setAtivo(true);
         return repository.save(estudante);

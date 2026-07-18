@@ -1,6 +1,8 @@
 package com.projetoIntegrador.Studia.service;
 
 import com.projetoIntegrador.Studia.dto.TarefaEstudoRequestDto;
+import com.projetoIntegrador.Studia.exception.RecursoDuplicadoException;
+import com.projetoIntegrador.Studia.exception.RecursoNaoEncotradoException;
 import com.projetoIntegrador.Studia.model.Disciplina;
 import com.projetoIntegrador.Studia.model.TarefaEstudo;
 import com.projetoIntegrador.Studia.repository.DisciplinaRepository;
@@ -24,11 +26,11 @@ public class TarefaEstudoService {
 
     public TarefaEstudo createTarefa(TarefaEstudoRequestDto dados){
         if(repository.existsByTitulo(dados.titulo())){
-            throw new IllegalArgumentException("O titulo ja existe.");
+            throw new RecursoDuplicadoException("O titulo ja existe.");
         }
 
         Disciplina disciplinaEncontrada = disciplinaRepository.findById(dados.disciplinaId())
-                .orElseThrow(() -> new IllegalArgumentException("Disciplina não encontrada."));
+                .orElseThrow(() -> new RecursoNaoEncotradoException("Disciplina não encontrada."));
 
         TarefaEstudo novaTarefa = new TarefaEstudo();
 
@@ -47,7 +49,7 @@ public class TarefaEstudoService {
     }
 
     public TarefaEstudo readById(Long id){
-        return repository.findById(id).orElseThrow(() -> new  IllegalArgumentException("Tarefa não encotrada."));
+        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncotradoException("Tarefa não encotrada."));
     }
     //====== UPDATE =====
     public TarefaEstudo update(Long id, TarefaEstudoRequestDto tarefaAtualizada){
