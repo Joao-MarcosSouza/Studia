@@ -35,7 +35,6 @@ public class GlobalHandler {
     public ProblemDetail handleEstadoInvalidadeException(EstadoInvalidoException erro){
         ProblemDetail detalhes = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT, erro.getMessage());
         detalhes.setTitle("Conflito de Estado");
-        detalhes.setDetail("Recurso ja Ativo");
 
         return detalhes;
     }
