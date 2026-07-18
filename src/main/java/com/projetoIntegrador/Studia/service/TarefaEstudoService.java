@@ -2,7 +2,7 @@ package com.projetoIntegrador.Studia.service;
 
 import com.projetoIntegrador.Studia.dto.TarefaEstudoRequestDto;
 import com.projetoIntegrador.Studia.exception.RecursoDuplicadoException;
-import com.projetoIntegrador.Studia.exception.RecursoNaoEncotradoException;
+import com.projetoIntegrador.Studia.exception.RecursoNaoEncontradoException;
 import com.projetoIntegrador.Studia.model.Disciplina;
 import com.projetoIntegrador.Studia.model.TarefaEstudo;
 import com.projetoIntegrador.Studia.repository.DisciplinaRepository;
@@ -30,7 +30,7 @@ public class TarefaEstudoService {
         }
 
         Disciplina disciplinaEncontrada = disciplinaRepository.findById(dados.disciplinaId())
-                .orElseThrow(() -> new RecursoNaoEncotradoException("Disciplina não encontrada."));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Disciplina não encontrada."));
 
         TarefaEstudo novaTarefa = new TarefaEstudo();
 
@@ -49,7 +49,7 @@ public class TarefaEstudoService {
     }
 
     public TarefaEstudo readById(Long id){
-        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncotradoException("Tarefa não encotrada."));
+        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Tarefa não encotrada."));
     }
     //====== UPDATE =====
     public TarefaEstudo update(Long id, TarefaEstudoRequestDto tarefaAtualizada){

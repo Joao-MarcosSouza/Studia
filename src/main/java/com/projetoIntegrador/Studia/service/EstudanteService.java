@@ -4,7 +4,7 @@ import com.projetoIntegrador.Studia.dto.EstudanteRequestDto;
 import com.projetoIntegrador.Studia.exception.ErrodeDeValidacaoException;
 import com.projetoIntegrador.Studia.exception.EstadoInvalidoException;
 import com.projetoIntegrador.Studia.exception.RecursoDuplicadoException;
-import com.projetoIntegrador.Studia.exception.RecursoNaoEncotradoException;
+import com.projetoIntegrador.Studia.exception.RecursoNaoEncontradoException;
 import com.projetoIntegrador.Studia.model.Estudante;
 import com.projetoIntegrador.Studia.repository.CronogramaTarefaRepository;
 import com.projetoIntegrador.Studia.repository.EstudanteRepository;
@@ -69,7 +69,7 @@ public class EstudanteService {
     }
 
     public Estudante readById(Long id){
-        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncotradoException("Estudante não encotrado"));
+        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Estudante não encotrado"));
     }
     // ====== update =====
 

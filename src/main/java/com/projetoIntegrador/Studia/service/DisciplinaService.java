@@ -2,7 +2,7 @@ package com.projetoIntegrador.Studia.service;
 
 import com.projetoIntegrador.Studia.dto.DisciplinaRequestDto;
 import com.projetoIntegrador.Studia.exception.RecursoDuplicadoException;
-import com.projetoIntegrador.Studia.exception.RecursoNaoEncotradoException;
+import com.projetoIntegrador.Studia.exception.RecursoNaoEncontradoException;
 import com.projetoIntegrador.Studia.model.Disciplina;
 import com.projetoIntegrador.Studia.repository.DisciplinaRepository;
 import org.springframework.data.domain.Page;
@@ -42,7 +42,7 @@ public class DisciplinaService {
     }
 
     public Disciplina readById(Long id){
-        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncotradoException("Disciplina não encotrado."));
+        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Disciplina não encotrado."));
     }
 
     //====== UPDATE ======

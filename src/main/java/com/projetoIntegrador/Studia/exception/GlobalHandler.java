@@ -15,8 +15,8 @@ public class GlobalHandler {
         return detalhes;
     }
 
-    @ExceptionHandler(RecursoNaoEncotradoException.class)
-    public ProblemDetail handleRecursoNaoEncontradoException(RecursoNaoEncotradoException erro){
+    @ExceptionHandler(RecursoNaoEncontradoException.class)
+    public ProblemDetail handleRecursoNaoEncontradoException(RecursoNaoEncontradoException erro){
         ProblemDetail detalhes = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, erro.getMessage());
         detalhes.setTitle("Recurso não encontrado");
 
