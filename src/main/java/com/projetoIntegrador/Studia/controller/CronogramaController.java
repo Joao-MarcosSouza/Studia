@@ -22,26 +22,37 @@ public class CronogramaController {
 
     // ====== CREATE ======
     @PostMapping
-    public ResponseEntity<Cronograma> vincular(@RequestBody CronogramaRequestDto cronograma) {
+    public ResponseEntity<Cronograma> createCronograma(@RequestBody CronogramaRequestDto cronograma) {
         Cronograma criado = cronogramaService.createCronograma(cronograma);
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
     //====== READ =======
     @GetMapping
-    public ResponseEntity<List<Cronograma>> listarTodos() {
+    public ResponseEntity<List<Cronograma>> ListAll() {
         return ResponseEntity.ok(cronogramaService.findAll());
     }
 
     //
     @GetMapping("/estudante/{estudanteId}")
-    public ResponseEntity<List<Cronograma>> listarPorEstudante(@PathVariable Long estudanteId) {
+    public ResponseEntity<List<Cronograma>> ListByEstudante(@PathVariable Long estudanteId) {
         return ResponseEntity.ok(cronogramaService.readyByEstudanteId(estudanteId));
+    }
+    //===== UPDATE =====
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Cronograma> update(
+            @PathVariable Long id,
+            @RequestBody CronogramaRequestDto dto) {
+
+        Cronograma cronogramaAtualizado = cronogramaService.update(id, dto);
+
+        return ResponseEntity.ok(cronogramaAtualizado);
     }
 
     // ====== DELETE =====
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removerTarefa(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTarefa(@PathVariable Long id) {
         cronogramaService.deleteCronograma(id);
         return ResponseEntity.noContent().build();
     }

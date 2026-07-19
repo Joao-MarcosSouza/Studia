@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
-@RequestMapping("/disciplinas") // Plural, seguindo a boa prática REST
+@RequestMapping("/disciplinas")
 public class DisciplinaController {
 
     private final DisciplinaService disciplinaService;
@@ -53,6 +53,6 @@ public class DisciplinaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         disciplinaService.deleteDisciplina(id);
-        return ResponseEntity.noContent().build(); // Retorna 204 (sem conteúdo), que é o padrão correto
+        return ResponseEntity.noContent().build();
     }
 }
