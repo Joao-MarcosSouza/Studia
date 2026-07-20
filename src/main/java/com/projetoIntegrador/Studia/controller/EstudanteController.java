@@ -4,7 +4,6 @@ import com.projetoIntegrador.Studia.dto.EstudanteRequestDto;
 import com.projetoIntegrador.Studia.model.Estudante;
 import com.projetoIntegrador.Studia.service.EstudanteService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
